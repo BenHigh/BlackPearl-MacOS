@@ -200,11 +200,36 @@ final class DeviceController: ObservableObject {
             selectedPresetID = match.id
         } else {
             let index = devicePresetIndex
-            settings.presets[index].bands = hardware
+            let sorted = Self.sortedByFrequency(hardware)
+            settings.presets[index].bands = sorted
             settings.presets[index].preamp = devicePreamp
             selectedPresetID = settings.presets[index].id
+            // The DAC ships its unused slots out of frequency order; slot order doesn't
+            // affect the response, so rewrite them ascending for a readable table.
+            if sorted != hardware { writeAllBands() }
         }
         persist()
+    }
+
+    /// Bands ordered by centre frequency and re-numbered to match their new slots.
+    static func sortedByFrequency(_ bands: [Band]) -> [Band] {
+        bands.sorted { ($0.frequency, $0.index) < ($1.frequency, $1.index) }
+            .enumerated()
+            .map { offset, band in
+                var b = band
+                b.index = offset
+                return b
+            }
+    }
+
+    func sortBandsByFrequency() {
+        var preset = currentPreset
+        let sorted = Self.sortedByFrequency(preset.bands)
+        guard sorted != preset.bands else { return }
+        preset.bands = sorted
+        replaceCurrentPreset(preset)
+        selectedBand = 0
+        writeAllBands()
     }
 
     // MARK: - EQ edits

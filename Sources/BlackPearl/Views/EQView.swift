@@ -91,6 +91,12 @@ struct EQView: View {
             } label: {
                 Label("Flatten", systemImage: "waveform.path")
             }
+            Button {
+                device.sortBandsByFrequency()
+            } label: {
+                Label("Sort", systemImage: "arrow.up.arrow.down")
+            }
+            .help("Renumber bands in ascending frequency order")
 
             Spacer()
 

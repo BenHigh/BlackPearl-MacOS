@@ -140,6 +140,17 @@ final class ProtocolTests: XCTestCase {
         XCTAssertEqual(reparsed.bands[2].enabled, false)
     }
 
+    @MainActor
+    func testSortingRenumbersSlots() {
+        var bands = (0..<Pearl.bandCount).map(Band.flat)
+        bands[7].frequency = 15000
+        bands[8].frequency = 8000
+        bands[9].frequency = 16000
+        let sorted = DeviceController.sortedByFrequency(bands)
+        XCTAssertEqual(sorted.map(\.frequency), [31, 63, 125, 250, 500, 1000, 2000, 8000, 15000, 16000])
+        XCTAssertEqual(sorted.map(\.index), Array(0..<Pearl.bandCount))
+    }
+
     func testPeakGainAndHeadroom() {
         var bands = (0..<Pearl.bandCount).map(Band.flat)
         XCTAssertEqual(Biquad.peakGainDB(of: bands), 0)
