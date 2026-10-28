@@ -25,8 +25,8 @@ struct EQView: View {
             HStack(spacing: 16) {
                 Text("Preamp")
                 Slider(
-                    value: Binding(get: { device.currentPreset.preamp }, set: { device.setPreamp($0) }),
-                    in: Pearl.preampRange, step: 0.5
+                    value: Binding(get: { device.currentPreset.preamp }, set: { device.setPreamp(($0 * 2).rounded() / 2) }),
+                    in: Pearl.preampRange
                 )
                 .frame(maxWidth: 260)
                 Text(String(format: "%+.1f dB", device.currentPreset.preamp))

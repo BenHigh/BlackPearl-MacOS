@@ -102,8 +102,9 @@ struct EQGraphView: View {
     }
 
     private func drawHandles(_ context: GraphicsContext, _ plot: CGRect) {
+        let points = handlePoints(plot)
         for band in bands {
-            let point = handlePoint(for: band, plot)
+            guard let point = points[band.index] else { continue }
             let isSelected = band.index == selected
             let radius: CGFloat = isSelected ? 7 : 5
             let rect = CGRect(x: point.x - radius, y: point.y - radius, width: radius * 2, height: radius * 2)
@@ -126,12 +127,27 @@ struct EQGraphView: View {
                 y: yFor(clamp(preamp + band.effectiveGain, -dbLimit...dbLimit), plot))
     }
 
+    /// Handle positions, nudged apart when several bands sit on the same spot
+    /// (the DAC parks unused bands together at 20 kHz) so each stays grabbable.
+    private func handlePoints(_ plot: CGRect) -> [Int: CGPoint] {
+        var placed: [CGPoint] = []
+        var result: [Int: CGPoint] = [:]
+        for band in bands {
+            var point = handlePoint(for: band, plot)
+            while placed.contains(where: { hypot($0.x - point.x, $0.y - point.y) < 12 }) {
+                point.x -= 13
+            }
+            placed.append(point)
+            result[band.index] = point
+        }
+        return result
+    }
+
     private func nearestBand(to location: CGPoint, in plot: CGRect) -> Int? {
         var best: (index: Int, distance: CGFloat)?
-        for band in bands {
-            let p = handlePoint(for: band, plot)
+        for (index, p) in handlePoints(plot) {
             let d = hypot(p.x - location.x, p.y - location.y)
-            if d <= 16, d < (best?.distance ?? .infinity) { best = (band.index, d) }
+            if d <= 16, d < (best?.distance ?? .infinity) { best = (index, d) }
         }
         return best?.index
     }
