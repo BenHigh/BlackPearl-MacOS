@@ -2,7 +2,7 @@
 
 A native macOS control panel for the **TRN Black Pearl** USB-C DAC: 10-band parametric EQ with a draggable response graph, presets, AutoEQ import/export, volume with headroom warning, balance, microphone gain, digital filter, gain and amplifier mode.
 
-It talks to the DAC directly over USB HID — no driver, no account, no network. The protocol is ported from [pyBlackPearl](https://github.com/KDRN/pyBlackPearl), the reverse-engineered Windows tool.
+It talks to the DAC directly over USB HID - no driver, no account, no network. The protocol is ported from [pyBlackPearl](https://github.com/KDRN/pyBlackPearl), the reverse-engineered Windows tool.
 
 > **Firmware updates are not included.** Those go through Walkplay's own server. Use the official web app at <https://peq.szwalkplay.com/> in Chrome or Edge for that.
 
@@ -22,7 +22,7 @@ make install        # builds and copies BlackPearl.app into /Applications
 
 ## Using it
 
-1. **Plug headphones into the DAC first**, then connect it to the Mac. The Black Pearl stays asleep on USB until it detects a load on the jack — it won't even power its LED, let alone enumerate.
+1. **Plug headphones into the DAC first**, then connect it to the Mac. The Black Pearl stays asleep on USB until it detects a load on the jack - it won't even power its LED, let alone enumerate.
 2. Launch Black Pearl. It finds the DAC automatically, reads its current state, and keeps the window in sync (including volume changes made with the DAC's own buttons).
 3. Drag the numbered dots on the graph, or edit the band table. Changes go to the DAC immediately and are committed to its flash memory 3 seconds after you stop adjusting, so they persist when you move the DAC to a phone.
 
