@@ -13,8 +13,8 @@ It talks to the DAC directly over USB HID — no driver, no account, no network.
 **From source** (needs Xcode 15+ or the Command Line Tools):
 
 ```sh
-git clone https://github.com/<you>/BlackPearl.git
-cd BlackPearl
+git clone https://github.com/BenHigh/BlackPearl-MacOS.git
+cd BlackPearl-MacOS
 make install        # builds and copies BlackPearl.app into /Applications
 ```
 
