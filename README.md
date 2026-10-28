@@ -30,6 +30,9 @@ make install        # builds and copies BlackPearl.app into /Applications
 
 **Headroom:** the orange ceiling line shows how much boost fits under digital full scale at the current volume. If your EQ exceeds it, the Device tab offers a one-click volume trim.
 
+## Development note
+This project was built with the assistance of Claude Fable 5.1
+
 ## Hardware notes
 
 - USB identity: vendor `0x3302` (TTGK Technology), product `0x43E8`, name "TE-C".
